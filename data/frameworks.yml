@@ -3,14 +3,19 @@
 # company         : optional
 # language        : primary impl. language
 
-- name: IonQ SDK
-  repo: ionq/python-ionq
-  company: IonQ
+- name: Amazon Braket SDK
+  repo: aws/amazon-braket-sdk-python
+  company: Amazon Web Services (AWS)
   language: Python
 
-- name: Qiskit
-  repo: Qiskit/qiskit
-  company: IBM
+- name: Bloqade.jl
+  repo: QuEraComputing/Bloqade.jl
+  company: QuEra
+  language: Julia
+
+- name: Blueqat
+  repo: Blueqat/Blueqat
+  company: Blueqat Inc.
   language: Python
 
 - name: Cirq
@@ -18,80 +23,10 @@
   company: Google
   language: Python
 
-- name: PennyLane
-  repo: PennyLaneAI/pennylane
-  company: Xanadu
-  language: Python
-
-- name: QuTiP
-  repo: qutip/qutip
-  company: Unitary Fund
-  language: Python
-
 - name: CUDA Quantum
   repo: NVIDIA/cuda-quantum
   company: NVIDIA
   language: C++
-
-- name: Quantum Katas (Q#)
-  repo: microsoft/QuantumKatas
-  company: Microsoft
-  language: Q#
-
-- name: Qibo
-  repo: qiboteam/qibo
-  company: Qilimanjaro
-  language: Python
-
-- name: PyQuil
-  repo: rigetti/pyquil
-  company: Rigetti
-  language: Python
-
-- name: TensorCircuit
-  repo: tencent-quantum-lab/tensorcircuit
-  company: Tencent
-  language: Python
-
-- name: Yao.jl
-  repo: QuantumBFS/Yao.jl
-  company: Chinese Academy of Sciences
-  language: Julia
-
-- name: Quirk
-  repo: Strilanc/Quirk
-  company: Algorithmic Assertions
-  language: JavaScript
-
-- name: TorchQuantum
-  repo: mit-han-lab/torchquantum
-  company: MIT
-  language: Python
-
-- name: Strawberry Fields
-  repo: XanaduAI/strawberryfields
-  company: Xanadu
-  language: Python
-
-- name: QPanda-2
-  repo: OriginQ/QPanda-2
-  company: OriginQC
-  language: C++
-
-- name: ProjectQ
-  repo: ProjectQ-Framework/ProjectQ
-  company: ETH Zurich
-  language: Python
-
-- name: Amazon Braket
-  repo: aws/amazon-braket-examples
-  company: Amazon
-  language: Python
-
-- name: Pytket
-  repo: CQCL/pytket
-  company: Quantinuum
-  language: Python
 
 - name: D-Wave Ocean SDK
   repo: dwavesystems/dwave-ocean-sdk
@@ -99,26 +34,166 @@
   language: Python
 
 - name: Intel Quantum Simulator
-  repo: intel/intel-qs
+  repo: iqusoft/intel-qs
   company: Intel
   language: C++
 
-- name: qBraid SDK
-  repo: qBraid/qBraid
-  company: qBraid
+- name: IonQ SDK
+  repo: ionq/python-ionq
+  company: IonQ
   language: Python
+
+- name: Microsoft Quantum Development Kit (Q#)
+  repo: microsoft/QuantumLibraries
+  company: Microsoft
+  language: Q#
+
+- name: myQLM
+  repo: myQLM/myqlm-simulators
+  company: Atos (Eviden)
+  language: Python
+
+- name: NVIDIA cuQuantum
+  repo: NVIDIA/cuQuantum
+  company: NVIDIA
+  language: C++
+
+- name: OpenQL
+  repo: QuTech-Delft/OpenQL
+  company: QuTech (TU Delft)
+  language: C++
+
+- name: Orquestra
+  repo: zapata-engineering/orquestra-sdk
+  company: Zapata Computing
+  language: Python
+
+- name: Paddle Quantum
+  repo: PaddlePaddle/Quantum
+  company: Baidu
+  language: Python
+
+- name: PennyLane
+  repo: PennyLaneAI/pennylane
+  company: Xanadu
+  language: Python
+
+- name: ProjectQ
+  repo: ProjectQ-Framework/ProjectQ
+  company: ETH Zurich
+  language: Python
+
+- name: Pulser
+  repo: pasqal-io/Pulser
+  company: Pasqal
+  language: Python
+
+- name: PyQuil
+  repo: rigetti/pyquil
+  company: Rigetti Computing
+  language: Python
+
+- name: Pytket
+  repo: CQCL/tket
+  company: Quantinuum
+  language: C++/Python
 
 - name: Q.js
   repo: stewdio/q.js
   company: Q
   language: JavaScript
 
-- name: Wolfram Quantum Framework
-  repo: WolframResearch/QuantumFramework
-  company: Wolfram Research
-  language: Mathematica
+- name: QCompute
+  repo: baidu/QCompute
+  company: Baidu
+  language: Python
 
-- name: Bloqade.jl
-  repo: QuEraComputing/Bloqade.jl
-  company: QuEra
+- name: Qibo
+  repo: qiboteam/qibo
+  company: Qilimanjaro
+  language: Python
+
+- name: Qiskit
+  repo: Qiskit/qiskit
+  company: IBM
+  language: Python
+
+- name: QPanda-2
+  repo: OriginQ/QPanda-2
+  company: Origin Quantum
+  language: C++
+
+- name: Qristal SDK
+  repo: qbrilliance/qristal
+  company: Quantum Brilliance
+  language: C++/Python
+
+- name: Quantum Katas
+  repo: microsoft/QuantumKatas
+  company: Microsoft
+  language: Q#
+
+- name: Quantum++ (Q++)
+  repo: softwareQinc/qpp
+  company: SoftwareQ Inc.
+  language: C++
+
+- name: QuEST
+  repo: QuEST-Kit/QuEST
+  company: University of Oxford (QuEST Project)
+  language: C/C++
+
+- name: Qulacs
+  repo: qulacs/qulacs
+  company: QunaSys
+  language: C++/Python
+
+- name: QuTiP
+  repo: qutip/qutip
+  company: Unitary Fund
+  language: Python
+
+- name: Quirk
+  repo: Strilanc/Quirk
+  company: Algorithmic Assertions
+  language: JavaScript
+
+- name: qBraid SDK
+  repo: qBraid/qBraid
+  company: qBraid
+  language: Python
+
+- name: Strawberry Fields
+  repo: XanaduAI/strawberryfields
+  company: Xanadu
+  language: Python
+
+- name: SuperstaQ
+  repo: Infleqtion/client-superstaq
+  company: Infleqtion (ColdQuanta)
+  language: Python
+
+- name: TensorCircuit
+  repo: tencent-quantum-lab/tensorcircuit
+  company: Tencent
+  language: Python
+
+- name: TensorFlow Quantum
+  repo: tensorflow/quantum
+  company: Google
+  language: Python
+
+- name: TorchQuantum
+  repo: mit-han-lab/torchquantum
+  company: MIT
+  language: Python
+
+- name: XACC
+  repo: eclipse/xacc
+  company: Eclipse Foundation (ORNL)
+  language: C++
+
+- name: Yao.jl
+  repo: QuantumBFS/Yao.jl
+  company: QuantumBFS
   language: Julia
