@@ -84,7 +84,7 @@ def main() -> None:
 
     JSON_FILE.write_text(json.dumps(hist, indent=2))
     print(
-        f"✅ wrote {JSON_FILE.relative_to(ROOT)} – "
+        f"✅ wrote {JSON_FILE.relative_to(ROOT)} - "
         f"{len(hist['history'])} total snapshots"
     )
 

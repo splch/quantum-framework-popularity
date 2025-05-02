@@ -24,7 +24,7 @@
       <h1 class="text-3xl font-semibold text-center">
         Quantum Framework Popularity
       </h1>
-      <p class="text-center text-gray-500 mt-2" id="generated"></p>
+      <p id="generated" class="text-center text-gray-500 mt-2"></p>
     </header>
 
     <main class="flex-grow container mx-auto px-4">
@@ -56,9 +56,24 @@
       <a
         href="https://github.com/splch/quantum-framework-popularity"
         class="underline"
+        target="_blank"
         >GitHub</a
       >
     </footer>
+
+    <!-- Quick modal for metric trendlines -->
+    <div
+      id="modal"
+      class="fixed inset-0 bg-black/50 hidden items-center justify-center"
+    >
+      <div class="bg-white rounded-lg p-4 max-w-lg w-full shadow-lg">
+        <button id="close" class="float-right text-gray-400 hover:text-black">
+          ✕
+        </button>
+        <h2 id="modal-title" class="text-lg font-semibold mb-2"></h2>
+        <canvas id="chart" class="w-full h-64"></canvas>
+      </div>
+    </div>
 
     <script>
       (async () => {
@@ -73,24 +88,21 @@
           last.frameworks.map((f) => [f.repo, f])
         );
 
+        document.getElementById(
+          "generated"
+        ).textContent = `Latest snapshot: ${dates.at(-1).toLocaleString()}`;
+
         const tbody = document.getElementById("rows");
-        const genEl = document.getElementById("generated");
-        genEl.textContent = `Latest snapshot: ${dates.at(-1).toLocaleString()}`;
+        const rowsTmp = []; // we will sort before appending
 
-        const numericCols = ["stars", "commits", "forks", "watchers"];
-        function sortValue(td) {
-          const n = td.textContent.replace(/[^0-9.-]/g, "");
-          return n && !isNaN(+n) ? +n : td.textContent.toLowerCase();
-        }
-
-        /* build table */
+        // Build <tr> for each framework
         for (const fw of Object.values(latest)) {
           const tr = document.createElement("tr");
           tr.className = "border-b hover:bg-gray-50";
           tr.innerHTML = `
-              <td class="px-4 py-2 font-medium"><a href="https://github.com/${
-                fw.repo
-              }" target="_blank" class="text-blue-600 hover:underline">${
+            <td class="px-4 py-2 font-medium"><a href="https://github.com/${
+              fw.repo
+            }" target="_blank" class="text-blue-600 hover:underline">${
             fw.name
           }</a></td>
               <td class="px-4 py-2 metric" data-repo="${
@@ -105,20 +117,33 @@
               <td class="px-4 py-2 metric" data-repo="${
                 fw.repo
               }" data-field="watchers">${fw.watchers.toLocaleString()}</td>
-              <td class="px-4 py-2">${fw.company || ""}</td>
-              <td class="px-4 py-2">${fw.language || ""}</td>`;
-          tbody.appendChild(tr);
+            <td class="px-4 py-2">${fw.company || ""}</td>
+            <td class="px-4 py-2">${fw.language || ""}</td>`;
+          rowsTmp.push(tr);
         }
 
-        /* column sort */
-        document.querySelectorAll("th.cursor-pointer").forEach((th, i) => {
+        // default sort: by stars DESC
+        rowsTmp.sort((a, b) => {
+          const A = parseInt(a.cells[1].textContent.replace(/,/g, ""), 10);
+          const B = parseInt(b.cells[1].textContent.replace(/,/g, ""), 10);
+          return B - A; // descending
+        });
+        rowsTmp.forEach((tr) => tbody.appendChild(tr));
+
+        // column‑click sorting (numeric aware)
+        function sortValue(td) {
+          const raw = td.textContent.trim();
+          const num = raw.replace(/[^0-9.-]/g, "");
+          return num && !isNaN(+num) ? +num : raw.toLowerCase();
+        }
+        document.querySelectorAll("th.cursor-pointer").forEach((th, colIdx) => {
           let dir = 1;
           th.addEventListener("click", () => {
             dir *= -1;
             [...tbody.rows]
               .sort((a, b) => {
-                const A = sortValue(a.cells[i]),
-                  B = sortValue(b.cells[i]);
+                const A = sortValue(a.cells[colIdx]);
+                const B = sortValue(b.cells[colIdx]);
                 if (typeof A === "number" && typeof B === "number")
                   return dir * (A - B);
                 return dir * A.localeCompare(B);
@@ -127,17 +152,16 @@
           });
         });
 
-        /* metric‑click → chart */
+        /* metric‑click → sparkline */
         const modal = document.getElementById("modal");
         const close = document.getElementById("close");
         const ctx = document.getElementById("chart");
-        let chart = null;
+        let chartRef = null;
 
         function series(repo, field) {
-          return history.map((snap) => {
-            const f = snap.frameworks.find((x) => x.repo === repo);
-            return f ? f[field] : null;
-          });
+          return history.map(
+            (s) => (s.frameworks.find((f) => f.repo === repo) || {})[field]
+          );
         }
 
         tbody.addEventListener("click", (e) => {
@@ -147,38 +171,26 @@
           const field = cell.dataset.field;
           const fw = latest[repo];
 
-          /* data & labels */
-          const data = series(repo, field);
-          const label = `${fw.name} – ${field}`;
-
           /* (re)draw */
-          chart && chart.destroy();
-          chart = new Chart(ctx, {
+          chartRef && chartRef.destroy();
+          chartRef = new Chart(ctx, {
             type: "line",
             data: {
               labels: dates.map((d) => d.toLocaleDateString()),
-              datasets: [{ label, data, fill: false, tension: 0.2 }],
+              datasets: [
+                { data: series(repo, field), fill: false, tension: 0.2 },
+              ],
             },
             options: { plugins: { legend: { display: false } } },
           });
-          document.getElementById("modal-title").textContent = label;
-          modal.classList.remove("hidden", "opacity-0");
+          document.getElementById(
+            "modal-title"
+          ).textContent = `${fw.name} - ${field}`;
+          modal.classList.remove("hidden");
         });
 
         close.addEventListener("click", () => modal.classList.add("hidden"));
       })();
     </script>
-    <div
-      id="modal"
-      class="fixed inset-0 bg-black/50 hidden items-center justify-center"
-    >
-      <div class="bg-white rounded-lg p-4 max-w-lg w-full shadow-lg">
-        <button id="close" class="float-right text-gray-400 hover:text-black">
-          ✕
-        </button>
-        <h2 id="modal-title" class="text-lg font-semibold mb-2"></h2>
-        <canvas id="chart" class="w-full h-64"></canvas>
-      </div>
-    </div>
   </body>
 </html>
