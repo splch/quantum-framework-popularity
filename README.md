@@ -15,7 +15,7 @@ A GitHub Actions workflow runs daily (`0 8 * * *` UTC) and:
 ```bash
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
-export GH_TOKEN=ghp_yourPAT        # needed only for local runs
+export GH_TOKEN=ghp_yourPAT  # needed only for local runs
 python scripts/update_metrics.py
 python -m http.server 8000
 open http://localhost:8000/docs/
