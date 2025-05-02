@@ -1,0 +1,35 @@
+name: Refresh metrics.json
+
+on:
+  workflow_dispatch:        # let you run it manually
+  schedule:
+    - cron:  '0 8 * * *'    # every day at 08:00 UTC
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run updater
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/update_metrics.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/metrics.json
+          git diff --staged --quiet || git commit -m "chore: 🔄 daily metrics"
+          git push

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Quantum Framework Popularity</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Quick-n-nice font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+    <style>body{font-family:Inter,system-ui,sans-serif}</style>
+  </head>
+  <body class="bg-gray-50 min-h-screen flex flex-col">
+    <header class="bg-white shadow p-6 mb-8">
+      <h1 class="text-3xl font-semibold text-center">Quantum Framework Popularity</h1>
+      <p class="text-center text-gray-500 mt-2" id="generated"></p>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4">
+      <div class="overflow-x-auto">
+        <table id="tbl" class="min-w-full text-sm text-left bg-white shadow-md rounded-lg">
+          <thead class="text-xs uppercase bg-gray-100 text-gray-700">
+            <tr>
+              <th class="px-4 py-3 cursor-pointer">Framework</th>
+              <th class="px-4 py-3 cursor-pointer">Stars</th>
+              <th class="px-4 py-3 cursor-pointer">Commits</th>
+              <th class="px-4 py-3 cursor-pointer">Forks</th>
+              <th class="px-4 py-3 cursor-pointer">Watchers</th>
+              <th class="px-4 py-3">Company</th>
+              <th class="px-4 py-3">Language</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </main>
+
+    <footer class="text-center text-xs text-gray-400 py-6">
+      Built with ❤️ + GitHub Actions – source on <a href="https://github.com/YOUR-ORG/YOUR-REPO" class="underline">GitHub</a>
+    </footer>
+
+    <script>
+      fetch('../data/metrics.json',{cache:'no-store'})
+        .then(r=>r.json())
+        .then(({generated_at, frameworks})=>{
+          document.getElementById('generated').textContent =
+            `Latest snapshot: ${new Date(generated_at).toLocaleString()}`;
+
+          const tbody = document.getElementById('rows');
+          for(const fw of frameworks){
+            const tr = document.createElement('tr');
+            tr.className = 'border-b hover:bg-gray-50';
+            tr.innerHTML = `
+              <td class="px-4 py-2 font-medium"><a href="https://github.com/${fw.repo}" class="text-blue-600 hover:underline" target="_blank">${fw.name}</a></td>
+              <td class="px-4 py-2">${fw.stars.toLocaleString()}</td>
+              <td class="px-4 py-2">${fw.commits.toLocaleString()}</td>
+              <td class="px-4 py-2">${fw.forks.toLocaleString()}</td>
+              <td class="px-4 py-2">${fw.watchers.toLocaleString()}</td>
+              <td class="px-4 py-2">${fw.company||''}</td>
+              <td class="px-4 py-2">${fw.language||''}</td>
+              <td class="px-4 py-2">${'★'.repeat(fw.strategic_value)}</td>`;
+            tbody.appendChild(tr);
+          }
+
+          // tiny, dependency-free column sort
+          document.querySelectorAll('th').forEach((th,i)=>{
+            th.addEventListener('click',()=>{
+              const dir = th.dataset.dir = -(th.dataset.dir||1);
+              [...tbody.children].sort((a,b)=>{
+                const A = a.children[i].textContent.replace(/[^0-9.]/g,'') || a.children[i].textContent;
+                const B = b.children[i].textContent.replace(/[^0-9.]/g,'') || b.children[i].textContent;
+                return (A==B?0:A>B?1:-1)*dir;
+              }).forEach(tr=>tbody.appendChild(tr));
+            });
+          });
+        });
+    </script>
+  </body>
+</html>

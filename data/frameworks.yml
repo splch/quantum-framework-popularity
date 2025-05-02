@@ -1,0 +1,124 @@
+# name            : human-readable
+# repo            : full “owner/name”
+# company         : optional
+# language        : primary impl. language
+
+- name: IonQ SDK
+  repo: ionq/python-ionq
+  company: IonQ
+  language: Python
+
+- name: Qiskit
+  repo: Qiskit/qiskit
+  company: IBM
+  language: Python
+
+- name: Cirq
+  repo: quantumlib/Cirq
+  company: Google
+  language: Python
+
+- name: PennyLane
+  repo: PennyLaneAI/pennylane
+  company: Xanadu
+  language: Python
+
+- name: QuTiP
+  repo: qutip/qutip
+  company: Unitary Fund
+  language: Python
+
+- name: CUDA Quantum
+  repo: NVIDIA/cuda-quantum
+  company: NVIDIA
+  language: C++
+
+- name: Quantum Katas (Q#)
+  repo: microsoft/QuantumKatas
+  company: Microsoft
+  language: Q#
+
+- name: Qibo
+  repo: qiboteam/qibo
+  company: Qilimanjaro
+  language: Python
+
+- name: PyQuil
+  repo: rigetti/pyquil
+  company: Rigetti
+  language: Python
+
+- name: TensorCircuit
+  repo: tencent-quantum-lab/tensorcircuit
+  company: Tencent
+  language: Python
+
+- name: Yao.jl
+  repo: QuantumBFS/Yao.jl
+  company: Chinese Academy of Sciences
+  language: Julia
+
+- name: Quirk
+  repo: Strilanc/Quirk
+  company: Algorithmic Assertions
+  language: JavaScript
+
+- name: TorchQuantum
+  repo: mit-han-lab/torchquantum
+  company: MIT
+  language: Python
+
+- name: Strawberry Fields
+  repo: XanaduAI/strawberryfields
+  company: Xanadu
+  language: Python
+
+- name: QPanda-2
+  repo: OriginQ/QPanda-2
+  company: OriginQC
+  language: C++
+
+- name: ProjectQ
+  repo: ProjectQ-Framework/ProjectQ
+  company: ETH Zurich
+  language: Python
+
+- name: Amazon Braket Examples
+  repo: aws/amazon-braket-examples
+  company: Amazon
+  language: Python
+
+- name: Pytket
+  repo: CQCL/pytket
+  company: Quantinuum
+  language: Python
+
+- name: D-Wave Ocean SDK
+  repo: dwavesystems/dwave-ocean-sdk
+  company: D-Wave Systems
+  language: Python
+
+- name: Intel Quantum Simulator
+  repo: intel/intel-qs
+  company: Intel
+  language: C++
+
+- name: qBraid SDK
+  repo: qBraid/qBraid
+  company: qBraid
+  language: Python
+
+- name: Q.js
+  repo: stewdio/q.js
+  company: Q
+  language: JavaScript
+
+- name: Wolfram Quantum Framework
+  repo: WolframResearch/QuantumFramework
+  company: Wolfram Research
+  language: Mathematica
+
+- name: Bloqade.jl
+  repo: QuEraComputing/Bloqade.jl
+  company: QuEra
+  language: Julia
