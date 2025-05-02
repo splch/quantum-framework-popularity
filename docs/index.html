@@ -55,7 +55,7 @@
     </footer>
 
     <script>
-      fetch("../data/metrics.json", { cache: "no-store" })
+      fetch("data/metrics.json", { cache: "no-store" })
         .then((r) => r.json())
         .then(({ generated_at, frameworks }) => {
           document.getElementById(
