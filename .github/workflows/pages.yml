@@ -1,16 +1,46 @@
 name: Deploy GitHub Pages
+
 on:
   push:
     branches: [main]
-    paths: ['docs/**', 'data/metrics.json']
+    paths:
+      - "docs/**" # website itself
+      - "data/metrics.json" # change here triggers a new deploy
+  workflow_dispatch:
 
+# Pages jobs must have these three permissions
 permissions:
   contents: read
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   deploy:
-    uses: actions/configure-pages@v5
-    with:
-      static_site_generator: other
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      # page_url comes from the deploy‑pages action
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      # 1 — Checkout repo
+      - uses: actions/checkout@v4
+
+      # 2 — Prepare Pages (sets env vars, etc.)
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # 3 — Upload the *docs* folder as an artifact
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs
+
+      # 4 — Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4

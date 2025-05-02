@@ -28,6 +28,7 @@ query($owner: String!, $name: String!){
 }
 """
 
+
 def run_query(owner, name):
     r = requests.post(
         "https://api.github.com/graphql",
@@ -37,6 +38,7 @@ def run_query(owner, name):
     )
     r.raise_for_status()
     return r.json()["data"]["repository"]
+
 
 def main():
     rows = yaml.safe_load(YAML_FILE.read_text())
@@ -66,6 +68,7 @@ def main():
 
     JSON_FILE.write_text(json.dumps(out, indent=2))
     print(f"Wrote {JSON_FILE}")
+
 
 if __name__ == "__main__":
     main()
