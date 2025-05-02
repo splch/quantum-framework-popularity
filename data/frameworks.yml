@@ -83,7 +83,7 @@
   company: ETH Zurich
   language: Python
 
-- name: Amazon Braket Examples
+- name: Amazon Braket
   repo: aws/amazon-braket-examples
   company: Amazon
   language: Python
