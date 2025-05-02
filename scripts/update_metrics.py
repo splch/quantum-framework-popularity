@@ -1,96 +1,69 @@
 #!/usr/bin/env python3
 """
-Pulls GitHub metrics for each framework in data/frameworks.yml
-and writes a compact data/metrics.json that the web front-end consumes.
+Appends a new daily snapshot to data/metrics.json and keeps a full history.
+
+JSON layout (top level):
+{
+  "history": [
+     { "generated_at": "...", "frameworks": [ { … } ] },
+     …
+  ]
+}
 """
-
 from __future__ import annotations
-
-import json
-import os
-import sys
-import datetime as dt
+import json, os, sys, datetime as dt
 from pathlib import Path
 from typing import Any
-
-import requests
-import yaml
+import requests, yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 YAML_FILE = DATA / "frameworks.yml"
 JSON_FILE = DATA / "metrics.json"
 
-
-ENDPOINT = "https://api.github.com/graphql"
 HEADERS: dict[str, str] = {}
 if token := os.getenv("GH_TOKEN"):
     HEADERS["Authorization"] = f"Bearer {token}"
 
-gql_query = """
+GQL = """
 query($owner: String!, $name: String!){
   repository(owner: $owner, name: $name){
     stargazerCount
     forkCount
     watchers{ totalCount }
-    defaultBranchRef{
-      target{
-        ... on Commit{ history{ totalCount } }
-      }
-    }
+    defaultBranchRef{ target{ ... on Commit{ history{ totalCount } } } }
   }
 }
 """
 
 
 def run_query(owner: str, name: str) -> dict[str, Any] | None:
-    """Return the GraphQL repo object or *None* if not found/accessible."""
     r = requests.post(
-        ENDPOINT,
-        json={"query": gql_query, "variables": {"owner": owner, "name": name}},
+        "https://api.github.com/graphql",
+        json={"query": GQL, "variables": {"owner": owner, "name": name}},
         headers=HEADERS,
         timeout=30,
     )
     r.raise_for_status()
-    payload = r.json()
-    # GitHub returns {"data":{"repository":null},"errors":[...]} when missing
-    return payload.get("data", {}).get("repository")
+    return r.json().get("data", {}).get("repository")
 
 
-def main() -> None:
-    rows: list[dict[str, Any]] = yaml.safe_load(YAML_FILE.read_text())
-
-    out: dict[str, Any] = {
+def snapshot() -> dict[str, Any]:
+    rows = yaml.safe_load(YAML_FILE.read_text())
+    snap = {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "frameworks": [],
     }
-
     for fw in rows:
-        repo_str: str = fw["repo"]
-        owner, name = repo_str.split("/", 1)
-
-        try:
-            repo = run_query(owner, name)
-        except Exception as exc:
-            print(f"⚠️  GraphQL request failed for {repo_str}: {exc}", file=sys.stderr)
-            continue
-
-        if repo is None:
-            print(
-                f"⚠️  Repository not found or inaccessible: {repo_str}", file=sys.stderr
-            )
-            continue
-
-        # Some archived or empty repos may not have a default branch yet
-        commits = 0
-        branch_ref = repo.get("defaultBranchRef") or {}
-        target = branch_ref.get("target") if isinstance(branch_ref, dict) else None
-        if isinstance(target, dict):
-            history = target.get("history")
-            if isinstance(history, dict):
-                commits = history.get("totalCount", 0) or 0
-
-        out["frameworks"].append(
+        owner, name = fw["repo"].split("/", 1)
+        repo = run_query(owner, name) or {}
+        commits = (
+            repo.get("defaultBranchRef", {})
+            .get("target", {})
+            .get("history", {})
+            .get("totalCount", 0)
+        )
+        snap["frameworks"].append(
             {
                 **fw,
                 "stars": repo.get("stargazerCount", 0),
@@ -99,10 +72,20 @@ def main() -> None:
                 "commits": commits,
             }
         )
+    return snap
 
-    JSON_FILE.write_text(json.dumps(out, indent=2))
+
+def main() -> None:
+    hist: dict[str, Any] = {"history": []}
+    if JSON_FILE.exists():
+        hist = json.loads(JSON_FILE.read_text())
+
+    hist.setdefault("history", []).append(snapshot())
+
+    JSON_FILE.write_text(json.dumps(hist, indent=2))
     print(
-        f"✅  Wrote {JSON_FILE.relative_to(ROOT)} with {len(out['frameworks'])} records"
+        f"✅ wrote {JSON_FILE.relative_to(ROOT)} – "
+        f"{len(hist['history'])} total snapshots"
     )
 
 

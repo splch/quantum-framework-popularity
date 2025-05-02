@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Tailwind via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
     <!-- Quick-n-nice font -->
     <link
       rel="stylesheet"
@@ -59,73 +61,124 @@
     </footer>
 
     <script>
-      function sortValue(td) {
-        const raw = td.textContent.trim();
-        const numeric = raw.replace(/[^0-9.-]/g, ""); // keep dot / minus for floats
-        if (numeric && !Number.isNaN(Number(numeric))) {
-          return Number(numeric);
+      (async () => {
+        const { history } = await fetch("data/metrics.json", {
+          cache: "no-store",
+        }).then((r) => r.json());
+
+        /* helpers */
+        const last = history.at(-1);
+        const dates = history.map((h) => new Date(h.generated_at));
+        const latest = Object.fromEntries(
+          last.frameworks.map((f) => [f.repo, f])
+        );
+
+        const tbody = document.getElementById("rows");
+        const genEl = document.getElementById("generated");
+        genEl.textContent = `Latest snapshot: ${dates.at(-1).toLocaleString()}`;
+
+        const numericCols = ["stars", "commits", "forks", "watchers"];
+        function sortValue(td) {
+          const n = td.textContent.replace(/[^0-9.-]/g, "");
+          return n && !isNaN(+n) ? +n : td.textContent.toLowerCase();
         }
-        return raw.toLowerCase();
-      }
 
-      fetch("data/metrics.json", { cache: "no-store" })
-        .then((r) => r.json())
-        .then(({ generated_at, frameworks }) => {
-          document.getElementById(
-            "generated"
-          ).textContent = `Latest snapshot: ${new Date(
-            generated_at
-          ).toLocaleString()}`;
-
-          const tbody = document.getElementById("rows");
-          for (const fw of frameworks) {
-            const tr = document.createElement("tr");
-            tr.className = "border-b hover:bg-gray-50";
-            tr.innerHTML = `
+        /* build table */
+        for (const fw of Object.values(latest)) {
+          const tr = document.createElement("tr");
+          tr.className = "border-b hover:bg-gray-50";
+          tr.innerHTML = `
               <td class="px-4 py-2 font-medium"><a href="https://github.com/${
                 fw.repo
-              }" class="text-blue-600 hover:underline" target="_blank">${
-              fw.name
-            }</a></td>
-              <td class="px-4 py-2">${fw.stars.toLocaleString()}</td>
-              <td class="px-4 py-2">${fw.commits.toLocaleString()}</td>
-              <td class="px-4 py-2">${fw.forks.toLocaleString()}</td>
-              <td class="px-4 py-2">${fw.watchers.toLocaleString()}</td>
+              }" target="_blank" class="text-blue-600 hover:underline">${
+            fw.name
+          }</a></td>
+              <td class="px-4 py-2 metric" data-repo="${
+                fw.repo
+              }" data-field="stars">${fw.stars.toLocaleString()}</td>
+              <td class="px-4 py-2 metric" data-repo="${
+                fw.repo
+              }" data-field="commits">${fw.commits.toLocaleString()}</td>
+              <td class="px-4 py-2 metric" data-repo="${
+                fw.repo
+              }" data-field="forks">${fw.forks.toLocaleString()}</td>
+              <td class="px-4 py-2 metric" data-repo="${
+                fw.repo
+              }" data-field="watchers">${fw.watchers.toLocaleString()}</td>
               <td class="px-4 py-2">${fw.company || ""}</td>
-              <td class="px-4 py-2">${fw.language || ""}</td>
-              <td class="px-4 py-2">${"★".repeat(fw.strategic_value)}</td>`;
-            tbody.appendChild(tr);
-          }
+              <td class="px-4 py-2">${fw.language || ""}</td>`;
+          tbody.appendChild(tr);
+        }
 
-          // simple column sorting – now numeric‑aware
-          const ths = document.querySelectorAll("th.cursor-pointer");
-          ths.forEach((th, colIdx) => {
-            let dir = 1; // 1 = asc, -1 = desc
-            th.addEventListener("click", () => {
-              dir *= -1; // toggle direction
-              const rows = Array.from(tbody.rows);
-              rows.sort((rowA, rowB) => {
-                const a = sortValue(rowA.cells[colIdx]);
-                const b = sortValue(rowB.cells[colIdx]);
-
-                // numeric vs numeric
-                if (typeof a === "number" && typeof b === "number") {
-                  return dir * (a - b);
-                }
-                // string compare (locale‑aware) – keep stars etc.
-                return (
-                  dir * a.localeCompare(b, undefined, { sensitivity: "base" })
-                );
-              });
-              rows.forEach((tr) => tbody.appendChild(tr));
-            });
+        /* column sort */
+        document.querySelectorAll("th.cursor-pointer").forEach((th, i) => {
+          let dir = 1;
+          th.addEventListener("click", () => {
+            dir *= -1;
+            [...tbody.rows]
+              .sort((a, b) => {
+                const A = sortValue(a.cells[i]),
+                  B = sortValue(b.cells[i]);
+                if (typeof A === "number" && typeof B === "number")
+                  return dir * (A - B);
+                return dir * A.localeCompare(B);
+              })
+              .forEach((tr) => tbody.appendChild(tr));
           });
-        })
-        .catch((err) => {
-          console.error("Failed to load metrics.json", err);
-          document.getElementById("generated").textContent =
-            "⚠️ Failed to load data";
         });
+
+        /* metric‑click → chart */
+        const modal = document.getElementById("modal");
+        const close = document.getElementById("close");
+        const ctx = document.getElementById("chart");
+        let chart = null;
+
+        function series(repo, field) {
+          return history.map((snap) => {
+            const f = snap.frameworks.find((x) => x.repo === repo);
+            return f ? f[field] : null;
+          });
+        }
+
+        tbody.addEventListener("click", (e) => {
+          const cell = e.target.closest(".metric");
+          if (!cell) return;
+          const repo = cell.dataset.repo;
+          const field = cell.dataset.field;
+          const fw = latest[repo];
+
+          /* data & labels */
+          const data = series(repo, field);
+          const label = `${fw.name} – ${field}`;
+
+          /* (re)draw */
+          chart && chart.destroy();
+          chart = new Chart(ctx, {
+            type: "line",
+            data: {
+              labels: dates.map((d) => d.toLocaleDateString()),
+              datasets: [{ label, data, fill: false, tension: 0.2 }],
+            },
+            options: { plugins: { legend: { display: false } } },
+          });
+          document.getElementById("modal-title").textContent = label;
+          modal.classList.remove("hidden", "opacity-0");
+        });
+
+        close.addEventListener("click", () => modal.classList.add("hidden"));
+      })();
     </script>
+    <div
+      id="modal"
+      class="fixed inset-0 bg-black/50 hidden items-center justify-center"
+    >
+      <div class="bg-white rounded-lg p-4 max-w-lg w-full shadow-lg">
+        <button id="close" class="float-right text-gray-400 hover:text-black">
+          ✕
+        </button>
+        <h2 id="modal-title" class="text-lg font-semibold mb-2"></h2>
+        <canvas id="chart" class="w-full h-64"></canvas>
+      </div>
+    </div>
   </body>
 </html>
