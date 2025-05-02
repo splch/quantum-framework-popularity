@@ -31,7 +31,9 @@
           id="tbl"
           class="min-w-full text-sm text-left bg-white shadow-md rounded-lg"
         >
-          <thead class="text-xs uppercase bg-gray-100 text-gray-700">
+          <thead
+            class="text-xs uppercase bg-gray-100 text-gray-700 select-none"
+          >
             <tr>
               <th class="px-4 py-3 cursor-pointer">Framework</th>
               <th class="px-4 py-3 cursor-pointer">Stars</th>
@@ -49,12 +51,23 @@
 
     <footer class="text-center text-xs text-gray-400 py-6">
       Built with ❤️ + GitHub Actions – source on
-      <a href="https://github.com/YOUR-ORG/YOUR-REPO" class="underline"
+      <a
+        href="https://github.com/splch/quantum-framework-popularity"
+        class="underline"
         >GitHub</a
       >
     </footer>
 
     <script>
+      function sortValue(td) {
+        const raw = td.textContent.trim();
+        const numeric = raw.replace(/[^0-9.-]/g, ""); // keep dot / minus for floats
+        if (numeric && !Number.isNaN(Number(numeric))) {
+          return Number(numeric);
+        }
+        return raw.toLowerCase();
+      }
+
       fetch("data/metrics.json", { cache: "no-store" })
         .then((r) => r.json())
         .then(({ generated_at, frameworks }) => {
@@ -84,23 +97,34 @@
             tbody.appendChild(tr);
           }
 
-          // tiny, dependency-free column sort
-          document.querySelectorAll("th").forEach((th, i) => {
+          // simple column sorting – now numeric‑aware
+          const ths = document.querySelectorAll("th.cursor-pointer");
+          ths.forEach((th, colIdx) => {
+            let dir = 1; // 1 = asc, -1 = desc
             th.addEventListener("click", () => {
-              const dir = (th.dataset.dir = -(th.dataset.dir || 1));
-              [...tbody.children]
-                .sort((a, b) => {
-                  const A =
-                    a.children[i].textContent.replace(/[^0-9.]/g, "") ||
-                    a.children[i].textContent;
-                  const B =
-                    b.children[i].textContent.replace(/[^0-9.]/g, "") ||
-                    b.children[i].textContent;
-                  return (A == B ? 0 : A > B ? 1 : -1) * dir;
-                })
-                .forEach((tr) => tbody.appendChild(tr));
+              dir *= -1; // toggle direction
+              const rows = Array.from(tbody.rows);
+              rows.sort((rowA, rowB) => {
+                const a = sortValue(rowA.cells[colIdx]);
+                const b = sortValue(rowB.cells[colIdx]);
+
+                // numeric vs numeric
+                if (typeof a === "number" && typeof b === "number") {
+                  return dir * (a - b);
+                }
+                // string compare (locale‑aware) – keep stars etc.
+                return (
+                  dir * a.localeCompare(b, undefined, { sensitivity: "base" })
+                );
+              });
+              rows.forEach((tr) => tbody.appendChild(tr));
             });
           });
+        })
+        .catch((err) => {
+          console.error("Failed to load metrics.json", err);
+          document.getElementById("generated").textContent =
+            "⚠️ Failed to load data";
         });
     </script>
   </body>
