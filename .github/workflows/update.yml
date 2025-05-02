@@ -1,5 +1,8 @@
 name: Refresh metrics.json
 
+permissions:
+  contents: write # allow commits & pushes
+
 on:
   workflow_dispatch: # let you run it manually
   schedule:

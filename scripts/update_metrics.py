@@ -21,7 +21,6 @@ DATA = ROOT / "data"
 YAML_FILE = DATA / "frameworks.yml"
 JSON_FILE = DATA / "metrics.json"
 
-# --- GitHub GraphQL helpers -------------------------------------------------
 
 ENDPOINT = "https://api.github.com/graphql"
 HEADERS: dict[str, str] = {}
@@ -58,9 +57,6 @@ def run_query(owner: str, name: str) -> dict[str, Any] | None:
     return payload.get("data", {}).get("repository")
 
 
-# --- Main -------------------------------------------------------------------
-
-
 def main() -> None:
     rows: list[dict[str, Any]] = yaml.safe_load(YAML_FILE.read_text())
 
@@ -80,7 +76,9 @@ def main() -> None:
             continue
 
         if repo is None:
-            print(f"⚠️  Repository not found or inaccessible: {repo_str}", file=sys.stderr)
+            print(
+                f"⚠️  Repository not found or inaccessible: {repo_str}", file=sys.stderr
+            )
             continue
 
         # Some archived or empty repos may not have a default branch yet
@@ -103,7 +101,9 @@ def main() -> None:
         )
 
     JSON_FILE.write_text(json.dumps(out, indent=2))
-    print(f"✅  Wrote {JSON_FILE.relative_to(ROOT)} with {len(out['frameworks'])} records")
+    print(
+        f"✅  Wrote {JSON_FILE.relative_to(ROOT)} with {len(out['frameworks'])} records"
+    )
 
 
 if __name__ == "__main__":
