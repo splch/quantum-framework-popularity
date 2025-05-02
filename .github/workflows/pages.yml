@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      # page_url comes from the deploy‑pages action
+      # page_url comes from the deploy-pages action
       url: ${{ steps.deploy.outputs.page_url }}
 
     steps:
