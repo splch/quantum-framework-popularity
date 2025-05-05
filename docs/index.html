@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Tailwind via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js via CDN -->
+    <!-- Chart.js for spark‑line pop‑ups -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
     <!-- Quick-n-nice font -->
     <link
@@ -20,6 +20,7 @@
     </style>
   </head>
   <body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header -->
     <header class="bg-white shadow p-6 mb-8">
       <h1 class="text-3xl font-semibold text-center">
         Quantum Framework Popularity
@@ -27,6 +28,7 @@
       <p id="generated" class="text-center text-gray-500 mt-2"></p>
     </header>
 
+    <!-- Main Table -->
     <main class="flex-grow container mx-auto px-4">
       <div class="overflow-x-auto">
         <table
@@ -52,7 +54,7 @@
     </main>
 
     <footer class="text-center text-xs text-gray-400 py-6">
-      Built with ❤️ + GitHub Actions – source on
+      Built with ❤️ + GitHub Actions - source on
       <a
         href="https://github.com/splch/quantum-framework-popularity"
         class="underline"
@@ -61,13 +63,16 @@
       >
     </footer>
 
-    <!-- Quick modal for metric trendlines -->
+    <!-- Modal for charts -->
     <div
       id="modal"
       class="fixed inset-0 bg-black/50 hidden items-center justify-center"
     >
-      <div class="bg-white rounded-lg p-4 max-w-lg w-full shadow-lg">
-        <button id="close" class="float-right text-gray-400 hover:text-black">
+      <div class="bg-white rounded-lg p-4 max-w-lg w-full shadow-lg relative">
+        <button
+          id="close"
+          class="absolute right-2 top-2 text-gray-400 hover:text-black"
+        >
           ✕
         </button>
         <h2 id="modal-title" class="text-lg font-semibold mb-2"></h2>
@@ -75,27 +80,28 @@
       </div>
     </div>
 
+    <!-- Client‑side logic -->
     <script>
       (async () => {
-        const { history } = await fetch("data/metrics.json", {
+        /* fetch JSON (support legacy single snapshot) */
+        const raw = await fetch("data/metrics.json", {
           cache: "no-store",
         }).then((r) => r.json());
+        const history = Array.isArray(raw.history) ? raw.history : [raw];
 
-        /* helpers */
-        const last = history.at(-1);
         const dates = history.map((h) => new Date(h.generated_at));
         const latest = Object.fromEntries(
-          last.frameworks.map((f) => [f.repo, f])
+          history.at(-1).frameworks.map((f) => [f.repo, f])
         );
 
+        /* fill header timestamp */
         document.getElementById(
           "generated"
         ).textContent = `Latest snapshot: ${dates.at(-1).toLocaleString()}`;
 
         const tbody = document.getElementById("rows");
-        const rowsTmp = []; // we will sort before appending
 
-        // Build <tr> for each framework
+        /* populate rows */
         for (const fw of Object.values(latest)) {
           const tr = document.createElement("tr");
           tr.className = "border-b hover:bg-gray-50";
@@ -105,45 +111,38 @@
             }" target="_blank" class="text-blue-600 hover:underline">${
             fw.name
           }</a></td>
-              <td class="px-4 py-2 metric" data-repo="${
-                fw.repo
-              }" data-field="stars">${fw.stars.toLocaleString()}</td>
-              <td class="px-4 py-2 metric" data-repo="${
-                fw.repo
-              }" data-field="commits">${fw.commits.toLocaleString()}</td>
-              <td class="px-4 py-2 metric" data-repo="${
-                fw.repo
-              }" data-field="forks">${fw.forks.toLocaleString()}</td>
-              <td class="px-4 py-2 metric" data-repo="${
-                fw.repo
-              }" data-field="watchers">${fw.watchers.toLocaleString()}</td>
+            <td class="px-4 py-2 metric" data-repo="${
+              fw.repo
+            }" data-field="stars">${fw.stars.toLocaleString()}</td>
+            <td class="px-4 py-2 metric" data-repo="${
+              fw.repo
+            }" data-field="commits">${fw.commits.toLocaleString()}</td>
+            <td class="px-4 py-2 metric" data-repo="${
+              fw.repo
+            }" data-field="forks">${fw.forks.toLocaleString()}</td>
+            <td class="px-4 py-2 metric" data-repo="${
+              fw.repo
+            }" data-field="watchers">${fw.watchers.toLocaleString()}</td>
             <td class="px-4 py-2">${fw.company || ""}</td>
             <td class="px-4 py-2">${fw.language || ""}</td>`;
-          rowsTmp.push(tr);
+          tbody.appendChild(tr);
         }
 
-        // default sort: by stars DESC
-        rowsTmp.sort((a, b) => {
-          const A = parseInt(a.cells[1].textContent.replace(/,/g, ""), 10);
-          const B = parseInt(b.cells[1].textContent.replace(/,/g, ""), 10);
-          return B - A; // descending
-        });
-        rowsTmp.forEach((tr) => tbody.appendChild(tr));
-
-        // column‑click sorting (numeric aware)
+        /* helper: numeric‑aware value extraction for sorting */
         function sortValue(td) {
-          const raw = td.textContent.trim();
-          const num = raw.replace(/[^0-9.-]/g, "");
-          return num && !isNaN(+num) ? +num : raw.toLowerCase();
+          const n = td.textContent.replace(/[^0-9.-]/g, "");
+          return n && !isNaN(+n) ? +n : td.textContent.toLowerCase();
         }
-        document.querySelectorAll("th.cursor-pointer").forEach((th, colIdx) => {
+
+        /* sortable headers */
+        document.querySelectorAll("th.cursor-pointer").forEach((th, idx) => {
           let dir = 1;
           th.addEventListener("click", () => {
             dir *= -1;
             [...tbody.rows]
               .sort((a, b) => {
-                const A = sortValue(a.cells[colIdx]);
-                const B = sortValue(b.cells[colIdx]);
+                const A = sortValue(a.cells[idx]);
+                const B = sortValue(b.cells[idx]);
                 if (typeof A === "number" && typeof B === "number")
                   return dir * (A - B);
                 return dir * A.localeCompare(B);
@@ -152,18 +151,26 @@
           });
         });
 
-        /* metric‑click → sparkline */
+        /* chart helpers */
         const modal = document.getElementById("modal");
         const close = document.getElementById("close");
         const ctx = document.getElementById("chart");
-        let chartRef = null;
+        let chart = null;
 
+        // Build a {labels, data} series trimmed to first real value
         function series(repo, field) {
-          return history.map(
-            (s) => (s.frameworks.find((f) => f.repo === repo) || {})[field]
-          );
+          const values = history.map((h) => {
+            const f = h.frameworks.find((x) => x.repo === repo);
+            return f ? f[field] : null;
+          });
+          const start = values.findIndex((v) => v !== null && v !== undefined);
+          return {
+            labels: dates.slice(start),
+            data: values.slice(start),
+          };
         }
 
+        /* click‑to‑chart */
         tbody.addEventListener("click", (e) => {
           const cell = e.target.closest(".metric");
           if (!cell) return;
@@ -171,25 +178,31 @@
           const field = cell.dataset.field;
           const fw = latest[repo];
 
-          /* (re)draw */
-          chartRef && chartRef.destroy();
-          chartRef = new Chart(ctx, {
+          const { labels, data } = series(repo, field);
+          const title = `${fw.name} - ${field}`;
+
+          chart && chart.destroy();
+          chart = new Chart(ctx, {
             type: "line",
             data: {
-              labels: dates.map((d) => d.toLocaleDateString()),
-              datasets: [
-                { data: series(repo, field), fill: false, tension: 0.2 },
-              ],
+              labels: labels.map((d) => d.toLocaleDateString()),
+              datasets: [{ data, fill: false, tension: 0.2, label: title }],
             },
-            options: { plugins: { legend: { display: false } } },
+            options: {
+              plugins: { legend: { display: false } },
+              scales: { y: { beginAtZero: false } },
+            },
           });
-          document.getElementById(
-            "modal-title"
-          ).textContent = `${fw.name} - ${field}`;
+
+          document.getElementById("modal-title").textContent = title;
           modal.classList.remove("hidden");
+          modal.classList.add("flex");
         });
 
         close.addEventListener("click", () => modal.classList.add("hidden"));
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) close.click();
+        });
       })();
     </script>
   </body>
