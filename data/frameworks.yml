@@ -124,7 +124,7 @@
   language: C++
 
 - name: Qrisp
-  repo: eclipse-qrisp
+  repo: eclipse-qrisp/Qrisp
   company: Eclipse Qrisp
   language: Python
 
@@ -186,6 +186,11 @@
 - name: TensorFlow Quantum
   repo: tensorflow/quantum
   company: Google
+  language: Python
+
+- name: toqito
+  repo: vprusso/toqito
+  company: Unitary Fund
   language: Python
 
 - name: TorchQuantum
