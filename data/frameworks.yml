@@ -123,6 +123,11 @@
   company: Origin Quantum
   language: C++
 
+- name: Qrisp
+  repo: eclipse-qrisp
+  company: Eclipse Qrisp
+  language: Python
+
 - name: Qristal SDK
   repo: qbrilliance/qristal
   company: Quantum Brilliance
