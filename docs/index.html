@@ -19,6 +19,7 @@
       }
     </style>
   </head>
+
   <body class="bg-gray-50 min-h-screen flex flex-col">
     <!-- Header -->
     <header class="bg-white shadow p-6 mb-8">
@@ -99,7 +100,30 @@
           "generated"
         ).textContent = `Latest snapshot: ${dates.at(-1).toLocaleString()}`;
 
+        /* compute 3‑month baseline per repo */
+        const MS_3M = 91 * 24 * 60 * 60 * 1000;
+        const cutoffTime = dates.at(-1) - MS_3M;
+        const baseline = {}; // repo -> snapshot object
+
+        for (let i = 0; i < history.length; i++) {
+          if (dates[i] < cutoffTime) continue;
+          for (const fw of history[i].frameworks) {
+            if (!baseline[fw.repo]) baseline[fw.repo] = fw;
+          }
+        }
+
+        /* populate table */
         const tbody = document.getElementById("rows");
+        function arrow(repo, field) {
+          const base = baseline[repo];
+          if (!base) return "";
+          const diff = latest[repo][field] - base[field];
+          if (diff > 0)
+            return '<span class="ml-1 text-green-600 text-xs">▲</span>';
+          if (diff < 0)
+            return '<span class="ml-1 text-red-600 text-xs">▼</span>';
+          return "";
+        }
 
         /* populate rows */
         for (const fw of Object.values(latest)) {
@@ -113,22 +137,34 @@
           }</a></td>
             <td class="px-4 py-2 metric" data-repo="${
               fw.repo
-            }" data-field="stars">${fw.stars.toLocaleString()}</td>
+            }" data-field="stars">${fw.stars.toLocaleString()}${arrow(
+            fw.repo,
+            "stars"
+          )}</td>
             <td class="px-4 py-2 metric" data-repo="${
               fw.repo
-            }" data-field="commits">${fw.commits.toLocaleString()}</td>
+            }" data-field="commits">${fw.commits.toLocaleString()}${arrow(
+            fw.repo,
+            "commits"
+          )}</td>
             <td class="px-4 py-2 metric" data-repo="${
               fw.repo
-            }" data-field="forks">${fw.forks.toLocaleString()}</td>
+            }" data-field="forks">${fw.forks.toLocaleString()}${arrow(
+            fw.repo,
+            "forks"
+          )}</td>
             <td class="px-4 py-2 metric" data-repo="${
               fw.repo
-            }" data-field="watchers">${fw.watchers.toLocaleString()}</td>
+            }" data-field="watchers">${fw.watchers.toLocaleString()}${arrow(
+            fw.repo,
+            "watchers"
+          )}</td>
             <td class="px-4 py-2">${fw.company || ""}</td>
             <td class="px-4 py-2">${fw.language || ""}</td>`;
           tbody.appendChild(tr);
         }
 
-        /* helper: numeric‑aware value extraction for sorting */
+        /* column sort (numeric aware) */
         function sortValue(td) {
           const n = td.textContent.replace(/[^0-9.-]/g, "");
           return n && !isNaN(+n) ? +n : td.textContent.toLowerCase();
@@ -164,10 +200,7 @@
             return f ? f[field] : null;
           });
           const start = values.findIndex((v) => v !== null && v !== undefined);
-          return {
-            labels: dates.slice(start),
-            data: values.slice(start),
-          };
+          return { labels: dates.slice(start), data: values.slice(start) };
         }
 
         /* click‑to‑chart */
