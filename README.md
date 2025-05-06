@@ -20,3 +20,8 @@ python scripts/update_metrics.py
 python -m http.server 8000
 open http://localhost:8000/docs/
 ```
+
+<details>
+<summary>Source</summary>
+<a href="https://github.com/qosf/awesome-quantum-software">Open-Source Quantum Software Projects</a>
+</details>
