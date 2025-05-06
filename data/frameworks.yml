@@ -43,11 +43,6 @@
   company: IonQ
   language: Python
 
-- name: Microsoft Quantum Development Kit (Q#)
-  repo: microsoft/QuantumLibraries
-  company: Microsoft
-  language: Q#
-
 - name: myQLM
   repo: myQLM/myqlm-simulators
   company: Atos (Eviden)
@@ -98,6 +93,11 @@
   company: Quantinuum
   language: C++/Python
 
+- name: Q#
+  repo: microsoft/qsharp
+  company: Microsoft
+  language: Q#
+
 - name: Q.js
   repo: stewdio/q.js
   company: Q
@@ -132,11 +132,6 @@
   repo: qbrilliance/qristal
   company: Quantum Brilliance
   language: C++/Python
-
-- name: Quantum Katas
-  repo: microsoft/QuantumKatas
-  company: Microsoft
-  language: Q#
 
 - name: Quantum++ (Q++)
   repo: softwareQinc/qpp
