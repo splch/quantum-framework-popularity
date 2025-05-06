@@ -119,9 +119,11 @@
           if (!base) return "";
           const diff = latest[repo][field] - base[field];
           if (diff > 0)
-            return '<span class="ml-1 text-green-600 text-xs">▲</span>';
+            return `<span class="ml-1 text-green-600 text-xs">▲ ${diff.toLocaleString()}</span>`;
           if (diff < 0)
-            return '<span class="ml-1 text-red-600 text-xs">▼</span>';
+            return `<span class="ml-1 text-red-600 text-xs">▼ ${Math.abs(
+              diff
+            ).toLocaleString()}</span>`;
           return "";
         }
 
