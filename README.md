@@ -4,7 +4,7 @@ Live site: **<https://splch.github.io/quantum-framework-popularity>**
 
 ## Update cadence
 
-A GitHub Actions workflow runs daily (`0 8 * * *` UTC) and:
+A GitHub Actions workflow runs daily (`0 0 * * *` UTC) and:
 
 1. Queries the GitHub GraphQL API for each repo in `data/frameworks.yml`.
 2. Regenerates `data/metrics.json`.
