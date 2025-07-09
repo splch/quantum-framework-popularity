@@ -63,6 +63,11 @@
   company: Microsoft
   language: F#
 
+- name: MerLin
+  repo: merlinquantum/merlin
+  company: Quandela
+  language: Python
+
 - name: MindQuantum
   repo: mindspore-ai/mindquantum
   company: MindSpore
@@ -202,6 +207,11 @@
   repo: artificial-brain/quantumcat
   company: Artificial Brain
   language: Python
+
+- name: QuantumToolbox.jl
+  repo: qutip/QuantumToolbox.jl
+  company: QuTiP
+  language: Julia
 
 - name: QuEST
   repo: QuEST-Kit/QuEST
