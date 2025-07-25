@@ -48549,6 +48549,611 @@
           "commits": 2129
         }
       ]
+    },
+    {
+      "generated_at": "2025-07-25T00:35:33+00:00",
+      "frameworks": [
+        {
+          "name": "Amazon Braket SDK",
+          "repo": "aws/amazon-braket-sdk-python",
+          "company": "Amazon Web Services (AWS)",
+          "language": "Python",
+          "stars": 334,
+          "forks": 140,
+          "watchers": 43,
+          "commits": 1224
+        },
+        {
+          "name": "Avalon",
+          "repo": "avalon-lang/avaloni",
+          "company": "Avalon",
+          "language": "C++",
+          "stars": 22,
+          "forks": 3,
+          "watchers": 5,
+          "commits": 218
+        },
+        {
+          "name": "Bloqade.jl",
+          "repo": "QuEraComputing/Bloqade.jl",
+          "company": "QuEra",
+          "language": "Julia",
+          "stars": 205,
+          "forks": 38,
+          "watchers": 11,
+          "commits": 1478
+        },
+        {
+          "name": "Blueqat",
+          "repo": "Blueqat/Blueqat",
+          "company": "Blueqat Inc.",
+          "language": "Python",
+          "stars": 378,
+          "forks": 56,
+          "watchers": 48,
+          "commits": 868
+        },
+        {
+          "name": "Cirq",
+          "repo": "quantumlib/Cirq",
+          "company": "Google",
+          "language": "Python",
+          "stars": 4663,
+          "forks": 1128,
+          "watchers": 187,
+          "commits": 4387
+        },
+        {
+          "name": "Classiq",
+          "repo": "Classiq/classiq-library",
+          "company": "Classiq",
+          "language": "Python",
+          "stars": 1917,
+          "forks": 864,
+          "watchers": 10,
+          "commits": 1413
+        },
+        {
+          "name": "CUDA Quantum",
+          "repo": "NVIDIA/cuda-quantum",
+          "company": "NVIDIA",
+          "language": "C++",
+          "stars": 750,
+          "forks": 264,
+          "watchers": 21,
+          "commits": 1791
+        },
+        {
+          "name": "Ocean",
+          "repo": "dwavesystems/dwave-ocean-sdk",
+          "company": "D-Wave Systems",
+          "language": "Python",
+          "stars": 480,
+          "forks": 174,
+          "watchers": 42,
+          "commits": 1582
+        },
+        {
+          "name": "Intel Quantum Simulator",
+          "repo": "iqusoft/intel-qs",
+          "company": "Intel",
+          "language": "C++",
+          "stars": 248,
+          "forks": 74,
+          "watchers": 19,
+          "commits": 313
+        },
+        {
+          "name": "IonQ SDK",
+          "repo": "ionq/python-ionq",
+          "company": "IonQ",
+          "language": "Python",
+          "stars": 0,
+          "forks": 0,
+          "watchers": 0,
+          "commits": 0
+        },
+        {
+          "name": "Ket",
+          "repo": "quantum-ket/ket",
+          "company": "Quantum Ket",
+          "language": "Python",
+          "stars": 7,
+          "forks": 2,
+          "watchers": 3,
+          "commits": 549
+        },
+        {
+          "name": "Liquid",
+          "repo": "StationQ/Liquid",
+          "company": "Microsoft",
+          "language": "F#",
+          "stars": 442,
+          "forks": 97,
+          "watchers": 75,
+          "commits": 61
+        },
+        {
+          "name": "MerLin",
+          "repo": "merlinquantum/merlin",
+          "company": "Quandela",
+          "language": "Python",
+          "stars": 5,
+          "forks": 5,
+          "watchers": 0,
+          "commits": 42
+        },
+        {
+          "name": "MindQuantum",
+          "repo": "mindspore-ai/mindquantum",
+          "company": "MindSpore",
+          "language": "Python",
+          "stars": 89,
+          "forks": 29,
+          "watchers": 8,
+          "commits": 2945
+        },
+        {
+          "name": "myQLM",
+          "repo": "myQLM/myqlm-simulators",
+          "company": "Atos (Eviden)",
+          "language": "Python",
+          "stars": 11,
+          "forks": 4,
+          "watchers": 4,
+          "commits": 268
+        },
+        {
+          "name": "NVIDIA cuQuantum",
+          "repo": "NVIDIA/cuQuantum",
+          "company": "NVIDIA",
+          "language": "C++",
+          "stars": 412,
+          "forks": 83,
+          "watchers": 22,
+          "commits": 107
+        },
+        {
+          "name": "OpenQL",
+          "repo": "QuTech-Delft/OpenQL",
+          "company": "QuTech (TU Delft)",
+          "language": "C++",
+          "stars": 105,
+          "forks": 48,
+          "watchers": 19,
+          "commits": 2933
+        },
+        {
+          "name": "Orquestra",
+          "repo": "zapata-engineering/orquestra-sdk",
+          "company": "Zapata Computing",
+          "language": "Python",
+          "stars": 11,
+          "forks": 9,
+          "watchers": 4,
+          "commits": 406
+        },
+        {
+          "name": "Paddle Quantum",
+          "repo": "PaddlePaddle/Quantum",
+          "company": "Baidu",
+          "language": "Python",
+          "stars": 617,
+          "forks": 184,
+          "watchers": 32,
+          "commits": 88
+        },
+        {
+          "name": "PennyLane",
+          "repo": "PennyLaneAI/pennylane",
+          "company": "Xanadu",
+          "language": "Python",
+          "stars": 2746,
+          "forks": 680,
+          "watchers": 48,
+          "commits": 5691
+        },
+        {
+          "name": "Perceval",
+          "repo": "Quandela/Perceval",
+          "company": "Quandela",
+          "language": "Python",
+          "stars": 179,
+          "forks": 71,
+          "watchers": 8,
+          "commits": 615
+        },
+        {
+          "name": "ProjectQ",
+          "repo": "ProjectQ-Framework/ProjectQ",
+          "company": "ETH Zurich",
+          "language": "Python",
+          "stars": 936,
+          "forks": 281,
+          "watchers": 67,
+          "commits": 287
+        },
+        {
+          "name": "Pulser",
+          "repo": "pasqal-io/Pulser",
+          "company": "Pasqal",
+          "language": "Python",
+          "stars": 210,
+          "forks": 70,
+          "watchers": 11,
+          "commits": 1164
+        },
+        {
+          "name": "PyQudit",
+          "repo": "Ordoptimus/pyqudit",
+          "company": "None",
+          "language": "Python",
+          "stars": 3,
+          "forks": 2,
+          "watchers": 2,
+          "commits": 16
+        },
+        {
+          "name": "PyQuil",
+          "repo": "rigetti/pyquil",
+          "company": "Rigetti Computing",
+          "language": "Python",
+          "stars": 1459,
+          "forks": 353,
+          "watchers": 83,
+          "commits": 1391
+        },
+        {
+          "name": "Pytket",
+          "repo": "CQCL/tket",
+          "company": "Quantinuum",
+          "language": "C++/Python",
+          "stars": 284,
+          "forks": 51,
+          "watchers": 21,
+          "commits": 1457
+        },
+        {
+          "name": "q",
+          "repo": "itsubaki/q",
+          "company": "None",
+          "language": "Go",
+          "stars": 262,
+          "forks": 30,
+          "watchers": 12,
+          "commits": 897
+        },
+        {
+          "name": "Q#",
+          "repo": "microsoft/qsharp",
+          "company": "Microsoft",
+          "language": "Q#",
+          "stars": 738,
+          "forks": 133,
+          "watchers": 27,
+          "commits": 1687
+        },
+        {
+          "name": "Q.js",
+          "repo": "stewdio/q.js",
+          "company": "Q",
+          "language": "JavaScript",
+          "stars": 354,
+          "forks": 28,
+          "watchers": 21,
+          "commits": 365
+        },
+        {
+          "name": "Qadence",
+          "repo": "pasqal-io/qadence",
+          "company": "Pasqal",
+          "language": "python",
+          "stars": 88,
+          "forks": 21,
+          "watchers": 11,
+          "commits": 383
+        },
+        {
+          "name": "qBraid SDK",
+          "repo": "qBraid/qBraid",
+          "company": "qBraid",
+          "language": "Python",
+          "stars": 89,
+          "forks": 46,
+          "watchers": 5,
+          "commits": 2637
+        },
+        {
+          "name": "QCL",
+          "repo": "aviggiano/qcl",
+          "company": "Vienna University of Technology",
+          "language": "C++",
+          "stars": 43,
+          "forks": 10,
+          "watchers": 3,
+          "commits": 9
+        },
+        {
+          "name": "QCompute",
+          "repo": "baidu/QCompute",
+          "company": "Baidu",
+          "language": "Python",
+          "stars": 92,
+          "forks": 25,
+          "watchers": 8,
+          "commits": 31
+        },
+        {
+          "name": "Qibo",
+          "repo": "qiboteam/qibo",
+          "company": "Qilimanjaro",
+          "language": "Python",
+          "stars": 322,
+          "forks": 78,
+          "watchers": 33,
+          "commits": 12783
+        },
+        {
+          "name": "Qiskit",
+          "repo": "Qiskit/qiskit",
+          "company": "IBM",
+          "language": "Python",
+          "stars": 6301,
+          "forks": 2586,
+          "watchers": 225,
+          "commits": 9600
+        },
+        {
+          "name": "QPanda-2",
+          "repo": "OriginQ/QPanda-2",
+          "company": "Origin Quantum",
+          "language": "C++",
+          "stars": 1170,
+          "forks": 94,
+          "watchers": 23,
+          "commits": 680
+        },
+        {
+          "name": "qpp",
+          "repo": "softwareQinc/qpp",
+          "company": "softwareQ Inc.",
+          "language": "C++",
+          "stars": 612,
+          "forks": 131,
+          "watchers": 34,
+          "commits": 3213
+        },
+        {
+          "name": "Qrisp",
+          "repo": "eclipse-qrisp/Qrisp",
+          "company": "Eclipse Qrisp",
+          "language": "Python",
+          "stars": 161,
+          "forks": 39,
+          "watchers": 10,
+          "commits": 1829
+        },
+        {
+          "name": "Qristal",
+          "repo": "qbrilliance/qristal",
+          "company": "Quantum Brilliance",
+          "language": "C++/Python",
+          "stars": 11,
+          "forks": 3,
+          "watchers": 1,
+          "commits": 68
+        },
+        {
+          "name": "Quantum++ (Q++)",
+          "repo": "softwareQinc/qpp",
+          "company": "SoftwareQ Inc.",
+          "language": "C++",
+          "stars": 612,
+          "forks": 131,
+          "watchers": 34,
+          "commits": 3213
+        },
+        {
+          "name": "quantumcat",
+          "repo": "artificial-brain/quantumcat",
+          "company": "Artificial Brain",
+          "language": "Python",
+          "stars": 26,
+          "forks": 17,
+          "watchers": 2,
+          "commits": 230
+        },
+        {
+          "name": "QuantumToolbox.jl",
+          "repo": "qutip/QuantumToolbox.jl",
+          "company": "QuTiP",
+          "language": "Julia",
+          "stars": 114,
+          "forks": 28,
+          "watchers": 5,
+          "commits": 1116
+        },
+        {
+          "name": "QuEST",
+          "repo": "QuEST-Kit/QuEST",
+          "company": "University of Oxford (QuEST Project)",
+          "language": "C/C++",
+          "stars": 443,
+          "forks": 160,
+          "watchers": 21,
+          "commits": 1464
+        },
+        {
+          "name": "Qulacs",
+          "repo": "qulacs/qulacs",
+          "company": "QunaSys",
+          "language": "C++/Python",
+          "stars": 475,
+          "forks": 127,
+          "watchers": 25,
+          "commits": 3586
+        },
+        {
+          "name": "QuTiP",
+          "repo": "qutip/qutip",
+          "company": "Unitary Fund",
+          "language": "Python",
+          "stars": 1868,
+          "forks": 690,
+          "watchers": 76,
+          "commits": 11900
+        },
+        {
+          "name": "Quipper",
+          "repo": "thephoeron/quipper-language",
+          "company": "Dalhousie University",
+          "language": "Haskell",
+          "stars": 86,
+          "forks": 13,
+          "watchers": 6,
+          "commits": 18
+        },
+        {
+          "name": "Quirk",
+          "repo": "Strilanc/Quirk",
+          "company": "Algorithmic Assertions",
+          "language": "JavaScript",
+          "stars": 1005,
+          "forks": 168,
+          "watchers": 46,
+          "commits": 1313
+        },
+        {
+          "name": "Scaffold",
+          "repo": "epiqc/ScaffCC",
+          "company": "Princeton University",
+          "language": "C++",
+          "stars": 195,
+          "forks": 54,
+          "watchers": 20,
+          "commits": 199
+        },
+        {
+          "name": "Silq",
+          "repo": "silq-lang/silq",
+          "company": "ETH Z\u00fcrich",
+          "language": "Q#",
+          "stars": 632,
+          "forks": 54,
+          "watchers": 53,
+          "commits": 2187
+        },
+        {
+          "name": "staq",
+          "repo": "softwareqinc/staq",
+          "company": "softwareQ Inc.",
+          "language": "OpenQASM",
+          "stars": 174,
+          "forks": 31,
+          "watchers": 13,
+          "commits": 644
+        },
+        {
+          "name": "Strawberry Fields",
+          "repo": "XanaduAI/strawberryfields",
+          "company": "Xanadu",
+          "language": "Python",
+          "stars": 812,
+          "forks": 207,
+          "watchers": 35,
+          "commits": 1172
+        },
+        {
+          "name": "SuperstaQ",
+          "repo": "Infleqtion/client-superstaq",
+          "company": "Infleqtion (ColdQuanta)",
+          "language": "Python",
+          "stars": 102,
+          "forks": 22,
+          "watchers": 9,
+          "commits": 1787
+        },
+        {
+          "name": "Tangelo",
+          "repo": "sandbox-quantum/Tangelo",
+          "company": "Sandbox Quantum",
+          "language": "python",
+          "stars": 125,
+          "forks": 32,
+          "watchers": 7,
+          "commits": 439
+        },
+        {
+          "name": "TensorCircuit",
+          "repo": "tencent-quantum-lab/tensorcircuit",
+          "company": "Tencent",
+          "language": "Python",
+          "stars": 320,
+          "forks": 88,
+          "watchers": 7,
+          "commits": 1989
+        },
+        {
+          "name": "TensorFlow Quantum",
+          "repo": "tensorflow/quantum",
+          "company": "Google",
+          "language": "Python",
+          "stars": 1978,
+          "forks": 607,
+          "watchers": 81,
+          "commits": 921
+        },
+        {
+          "name": "Tequila",
+          "repo": "tequilahub/tequila",
+          "company": "Tequila",
+          "language": "Python",
+          "stars": 404,
+          "forks": 119,
+          "watchers": 15,
+          "commits": 1444
+        },
+        {
+          "name": "toqito",
+          "repo": "vprusso/toqito",
+          "company": "Unitary Fund",
+          "language": "Python",
+          "stars": 258,
+          "forks": 114,
+          "watchers": 11,
+          "commits": 2435
+        },
+        {
+          "name": "TorchQuantum",
+          "repo": "mit-han-lab/torchquantum",
+          "company": "MIT",
+          "language": "Python",
+          "stars": 1514,
+          "forks": 226,
+          "watchers": 31,
+          "commits": 1471
+        },
+        {
+          "name": "XACC",
+          "repo": "eclipse/xacc",
+          "company": "Eclipse Foundation (ORNL)",
+          "language": "C++",
+          "stars": 173,
+          "forks": 88,
+          "watchers": 17,
+          "commits": 2547
+        },
+        {
+          "name": "Yao.jl",
+          "repo": "QuantumBFS/Yao.jl",
+          "company": "QuantumBFS",
+          "language": "Julia",
+          "stars": 990,
+          "forks": 127,
+          "watchers": 26,
+          "commits": 2129
+        }
+      ]
     }
   ]
 }
