@@ -38,6 +38,11 @@
   company: NVIDIA
   language: C++
 
+- name: ffsim
+  repo: qiskit-community/ffsim
+  company: University of Michigan
+  language: Python
+
 - name: Ocean
   repo: dwavesystems/dwave-ocean-sdk
   company: D-Wave Systems
