@@ -223,6 +223,11 @@
   company: University of Oxford (QuEST Project)
   language: C/C++
 
+- name: Qugo
+  repo: splch/Qugo
+  company: None
+  language: Go
+
 - name: Qulacs
   repo: qulacs/qulacs
   company: QunaSys
