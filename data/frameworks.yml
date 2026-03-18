@@ -43,6 +43,11 @@
   company: University of Michigan
   language: Python
 
+- name: Goqu
+  repo: splch/goqu
+  company: None
+  language: Go
+
 - name: Ocean
   repo: dwavesystems/dwave-ocean-sdk
   company: D-Wave Systems
@@ -222,11 +227,6 @@
   repo: QuEST-Kit/QuEST
   company: University of Oxford (QuEST Project)
   language: C/C++
-
-- name: Qugo
-  repo: splch/Qugo
-  company: None
-  language: Go
 
 - name: Qulacs
   repo: qulacs/qulacs
